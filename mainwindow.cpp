@@ -58,6 +58,7 @@ tableWidget->horizontalHeader()->setVisible(false); //隐藏行表头
     columnHeaderItem0->setFont(QFont("Helvetica")); //设置字体
     columnHeaderItem0->setBackgroundColor(QColor(0,60,10)); //设置单元格背景颜色
     columnHeaderItem0->setTextColor(QColor(200,111,30)); //设置文字颜色
+
 //在单元格里加入控件
 //QTableWidget不仅允许把文字加到单元格，还允许把控件也放到单元格中。比如，把一个下拉框加入单元格，可以这么做：
     QComboBox *comBox = new QComboBox();
@@ -99,7 +100,14 @@ Qt::AlignVCenter	0x0080	Centers vertically in the available space.
     item2->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     ui->tableWidget->setItem(1,1,item2);
 
+    //设置单元格的大小
+    //1,首先，可以指定某个行或者列的大小
+    ui->tableWidget->setColumnWidth(1,200);
+    ui->tableWidget->setRowHeight(1,60);
     ui->tableWidget->selectRow(0);
+    //2,或者将行和列的大小设为与内容相匹配
+    ui->tableWidget->resizeColumnsToContents();
+    ui->tableWidget->resizeRowsToContents();
 }
 
 MainWindow::~MainWindow()
@@ -112,7 +120,7 @@ void MainWindow::on_tableWidget_currentItemChanged(QTableWidgetItem *current, QT
 
     if(previous!=Q_NULLPTR)
     {
-        previous->setBackgroundColor(Qt::transparent);
+        previous->setBackgroundColor(Qt::green);
     }
     if(current==Q_NULLPTR)return;
     current->setBackgroundColor(Qt::blue);
@@ -124,7 +132,7 @@ void MainWindow::on_btn_Add_clicked()
 //     model->insertRow(model->rowCount());
     int cols=ui->tableWidget->columnCount();
     int rows=ui->tableWidget->rowCount();
-    qDebug()<<rows;
+
     ui->tableWidget->insertRow(rows);
     for(int i=0;i<cols;i++)
     {
